@@ -1,54 +1,41 @@
 #include "lists.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 /**
-*add_nodeint - adds a new node at the beginning of a listint_t list
-*@head: head of listint_t
-*@n: int to add in listint_t list
-*Return: address of the new element, or NULL if it failed
-*/
-listint_t *add_nodeint(listint_t **head, const int n)
+ * is_palindrome_recursive - check if list is a palindrome using recursion
+ * @left: left pointer
+ * @right: right pointer
+ *
+ * Return: 1 if palindrome, 0 if not
+ */
+int is_palindrome_recursive(listint_t **left, listint_t *right)
 {
-	listint_t *new;
+	int response;
 
-	new = malloc(sizeof(listint_t));
-	if (new == NULL)
-		return (NULL);
-	new->n = n;
-	new->next = *head;
-	*head = new;
-	return (new);
+	if (right != NULL)
+	{
+		response = is_palindrome_recursive(left, right->next);
+		if (response != 0)
+		{
+			response = ((*left)->n == right->n);
+			*left = (*left)->next;
+			return (response);
+		}
+		return (0);
+	}
+	return (1);
 }
+
 /**
-*is_palindrome - identify if a syngle linked list is palindrome
-*@head: head of listint_t
-*Return: 1 if it is palindrome else 0
-*/
+ * is_palindrome - checks if a singly linked list is a palindrome.
+ * @head: head of linked list
+ *
+ * Return: 1 if palindrome, 0 if not
+ */
 int is_palindrome(listint_t **head)
 {
-	listint_t *head2 = *head;
-	listint_t *aux = NULL, *aux2 = NULL;
-
-	if (*head == NULL || head2->next == NULL)
+	if (head == NULL || *head == NULL)
 		return (1);
-	while (head2 != NULL)
-	{
-		add_nodeint(&aux, head2->n);
-		head2 = head2->next;
-	}
-	aux2 = aux;
-	while (*head != NULL)
-	{
-		if ((*head)->n != aux2->n)
-		{
-			free_listint(aux);
-			return (0);
-		}
-		*head = (*head)->next;
-		aux2 = aux2->next;
-	}
-	free_listint(aux);
-	return (1);
+
+	return (is_palindrome_recursive(head, *head));
 }
 
