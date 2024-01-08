@@ -1,25 +1,29 @@
-#include <stddef.h>
-#ifndef CUSTOM_LISTS_H
-#define CUSTOM_LISTS_H
+#ifndef LISTS_H
+#define LISTS_H
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
 /**
- * struct CustomListNode - singly linked list
- * @value: integer value stored in the node
+ * struct listint_s - singly linked list
+ * @n: integer
  * @next: points to the next node
  *
- * Description: structure for a singly linked list node
+ * Description: singly linked list node structure
+ * for Holberton project
  */
-typedef struct CustomListNode
+typedef struct listint_s
 {
-    int value;
-    struct CustomListNode *next;
-} CustomListNode;
+	int n;
+	struct listint_s *next;
+} listint_t;
 
-size_t custom_print_list(const CustomListNode *head);
-CustomListNode *custom_add_node_end(CustomListNode **head, const int value);
-void custom_free_list(CustomListNode *head);
+size_t print_listint(const listint_t *h);
+listint_t *add_nodeint_end(listint_t **head, const int n);
+void free_listint(listint_t *head);
 
-int custom_is_palindrome(CustomListNode **head);
+void reverse_listint(listint_t **head);
+int is_palindrome(listint_t **head);
 
-#endif /* CUSTOM_LISTS_H */
-
+#endif /* LISTS_H */
